@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Twin Game</title>
+</head>
+
+<body>
+
+  <header class="title">
+    <h1>Twin Game</h1>
+    <div class="selector">
+        <span>Dificultad</span>
+        <select name="parejas">
+            <option value="2">Fácil</option>
+            <option value="4">Medio</option>
+            <option value="5">Difícil</option>
+        </select>
+    </div>
+    <button onclick="refreshTarget()">Refresh</button>
+  </header>
+
+  <div class="board">
+  </div>
+
+  <style>
+    .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selector {
+        padding-left: 2.5em;
+    }
+
+    .board {
+        background-color:   #E0E0E0;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 150px));
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .container {
+        width: 150px;
+        height: 150px;
+        -webkit-perspective: 800px;
+        -ms-perspective: 800px;
+        perspective: 800px;
+        border-radius: 4px;
+    }
+    .card {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        transition: -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-radius: 6px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        cursor: pointer;
+    }
+    .card div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 6px;
+        background: #fff;
+        display: -ms-flexbox;
+        display: box;
+        display: flex;
+        -o-box-pack: center;
+        justify-content: center;
+        -o-box-align: center;
+        align-items: center;
+        color: white;
+    }
+    .card .front {
+        background-image: url('../img/catFront.png');
+        -o-background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+    }
+    .card .back {
+        -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+    .card.flipped {
+        -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+    }
+
+  </style>
+
+  <script>
+    function createTaget (numTaget) {
+        let finalTarget=[];
+        let resultado=[];
+        
+        for (i=1; i<=numTaget ; i++){
+            finalTarget.push('cat_'+i+'.jpg');
+            finalTarget.push('cat_'+i+'.jpg');
+        }
+        
+        while(finalTarget.length != 0) {
+            pos = randomNumber(finalTarget.length);
+            resultado.push(finalTarget[pos]);
+            finalTarget.splice(pos, 1);
+        }
+        return resultado;
+    }
+   
+    function randomNumber(limit) {
+        return Math.floor(Math.random() * limit);
+    }
+
+    function generateHTML(image , index){
+      return `
+            <div class="container">
+            <div class="card item${index}" name="${image}" pending="true">
+                <div class="front item${index}">Click to flip</div>
+                <div class="back item${index}">
+                        <img src="../img/${image}">
+                </div>
+            </div>
+            </div>
+      `;
+    }
+
+    function refreshTarget () {
+        const twins = document.querySelector('select');
+        const board = document.querySelector('.board');
+
+        targets = createTaget(twins.value);
+        const html = targets.map(generateHTML).join('');
+        board.innerHTML = html;
+
+        const items = document.querySelectorAll('.card');
+        items.forEach(item => item.addEventListener('click', handleClick));
+    }
+    refreshTarget();
+
+    function handleClick(e) {
+        card = document.querySelector("." + e.target.classList[1]);
+        
+        if(card) {
+            card.classList.toggle("flipped")
+            card.setAttribute('active', true);
+       
+            comprobar(); 
+        }
+    }
+
+    function comprobar() {
+        cards = document.querySelectorAll('[active]');
+
+        if(cards.length === 2) {
+            if (cards[0].getAttribute('name') === cards[1].getAttribute('name') ){
+                cards[0].removeAttribute('active');
+                cards[1].removeAttribute('active');
+                
+                cards[0].removeAttribute('pending');
+                cards[1].removeAttribute('pending');
+                final();
+            }
+            else {
+               cards[0].removeAttribute('active');
+               cards[1].removeAttribute('active');
+               
+               closeTarget (cards[0], cards[1]); 
+            }    
+        }
+    };
+
+    function closeTarget (first, second) {
+        setTimeout( function() { 
+                first.classList.toggle("flipped");
+                second.classList.toggle("flipped");
+               }, 1000)  
+    };
+
+    function final () {
+        ocultas = document.querySelectorAll('[pending]');
+        if (ocultas.length === 0 ) console.log("juego terminado")
+    }
+
+  </script>
+</body>
+
+</html>

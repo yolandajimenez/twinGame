@@ -20,7 +20,7 @@
                 <option value="5">Difícil</option>
             </select>
         </div>
-        <button onclick="refreshTarget()">Refresh</button>
+        <img class="refresh" src="../icons/baseline-refresh-24px.svg" onclick="refreshTarget()"></img>    
     </header>
 
     <div class="board">
@@ -30,14 +30,22 @@
         <div class="overlay-inner">
             <h2> You Win </h2>
             <span>Do you want to play again?</span>
-            <button class="message-button-yes" onclick="overlayRefresh()">Yes</button>
-            <button class="message-button-no" onclick="closeOverlay()">No</button>
+            <div class="buttons">
+                <button class="message-button-yes" onclick="overlayRefresh()">Yes</button>
+                <button class="message-button-no" onclick="closeOverlay()">No</button>
+            </div>
         </div>
     </div>
 
 </div>
 
   <style>
+
+      .refresh{
+        width: 24px;
+        height: 24px;
+      }
+
     .title {
         display: flex;
         flex-direction: row;
@@ -118,24 +126,58 @@
     }
 
     .overlay {
-      position: fixed;
-      background: rgba(0, 0, 0, 0.7);
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: none;
-      z-index: 2;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.7);
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: none;
+        z-index: 2;
     }
+    .overlay h2 {
+        padding-left: 1rem;
+    }
+
+    .overlay span {
+        display: block;
+        padding-left: 1rem;
+    }
+
     .overlay.open {
-      display: grid;
-      justify-content: center;
-      align-items: center;
+        display: grid;
+        justify-content: center;
+        align-items: center;
     }
     .overlay-inner {
-      background: white;
-      width: 700px;
-      padding: 20px;
+        background: white;
+        width: 300px;
+        padding: 20px;
+    }
+    .overlay-inner .buttons {
+        display: flex;
+        justify-content: right;
+        padding-top: 0.5rem;
+    }
+
+    .overlay-inner button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        padding: 8px 16px;
+        text-transform: uppercase;
+        color: #2196f3;
+    }
+
+    .overlay-inner button:hover {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        padding: 8px 16px;
+        text-transform: uppercase;
+        color: #0069c0;
     }
 
   </style>

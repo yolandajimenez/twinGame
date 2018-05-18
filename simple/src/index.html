@@ -10,17 +10,20 @@
 
 <body>
 
-    <header class="title">
-        <h1>Twin Game</h1>
-        <div class="selector">
-            <span>Dificultad</span>
-            <select name="parejas">
-                <option value="2">Fácil</option>
-                <option value="4">Medio</option>
-                <option value="5">Difícil</option>
-            </select>
+    <header>
+        <div class="title">
+            <h1>Twin Game</h1>
         </div>
-        <img class="refresh" src="../icons/baseline-refresh-24px.svg" onclick="refreshTarget()"></img>    
+        <div class="controls">
+            <div class="selector">
+                <select name="parejas">
+                    <option value="2">Fácil</option>
+                    <option value="4">Medio</option>
+                    <option value="5">Difícil</option>
+                </select>
+            </div>
+            <img class="refresh" src="../icons/baseline-refresh-24px.svg" onclick="refreshTarget()"></img>    
+        </div>
     </header>
 
     <div class="board">
@@ -37,25 +40,49 @@
         </div>
     </div>
 
-</div>
-
   <style>
-    .title {
+    header {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+    }
+
+    .controls {
+        display: flex;
     }
 
     .selector {
-        padding-left: 2.5em;
+        padding-left: 0.5em;
+        width: 8rem;
+        height: 1.5rem;
+        overflow: hidden;
+        background: url("../icons/baseline-keyboard_arrow_down.svg") no-repeat right transparent;
+        border-bottom: 1px solid #ccc;
+        margin-right: 1rem;
+    }
+
+    .selector select{
+        background: transparent;
+        width: 9rem;
+        font-size: 16px;
+        line-height: 1;
+        border: 0;
+        border-radius: 0;
+        height: 1.5rem;
+        -webkit-appearance: none;
+    }
+
+    .selector select:focus{
+        outline: none;
+        
     }
 
     .refresh{
         width: 24px;
         height: 24px;
     }
-    
+
     .board {
         background-color:   #E0E0E0;
         display: grid;

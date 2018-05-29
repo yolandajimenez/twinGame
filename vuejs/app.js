@@ -9,7 +9,21 @@ Vue.component('game-header', {
 });
 
 Vue.component('game-controls', {
-    template: '<span>controls</span>'
+    template: ['<div class="controls">',
+                '<div class="selector">',
+                    '<select name="parejas" @change="refreshTarget();">',
+                        '<option value="2">Fácil</option>',
+                        '<option value="4">Medio</option>',
+                        '<option value="5">Difícil</option>',
+                    '</select>',
+                '</div>',
+                '<img class="refresh" src="icons/baseline-refresh-24px.svg" @click="refreshTarget"></img>',
+            '</div>'].join(''),
+    methods: {
+        refreshTarget: function () {
+            console.log("Refresh")
+        }
+    },
 });
 
 
